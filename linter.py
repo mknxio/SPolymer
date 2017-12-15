@@ -1,4 +1,5 @@
 import re
+import os
 
 
 class SploymerLinter():
@@ -6,12 +7,17 @@ class SploymerLinter():
         DocString
     """
 
-    _rgx_html_import = '(<link +({}|{}).*\/?>)'.format(
-                            'rel="import" +(.* +)?href=".+"',
-                            'href=".+" +(.* +)?rel="import"?')
+    _errors = []
 
     def lint_html_imports(self, content):
-        pattern = re.compile(self._rgx_html_import, re.I | re.M)
-        matches = pattern.match(content)
-        if matches:
-            print(pattern.match(content).group(1))
+        """
+            Used to perform HTML imports checking.
+            This method will parse the given HTML content and extract HTML
+            import statements, then will check for valid file paths, and
+            display an error tooltip if paths are not valid.
+        """
+        rgx_html_import = '(<link +({}|{}).*\/?>)'.format(
+                                            'rel="import" +(.+ +)?(href=".+")',
+                                            '(href=".+") +(.+ +)?rel="import"')
+        matches = re.findall(rgx_html_import, content, re.I)
+
