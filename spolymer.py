@@ -13,7 +13,7 @@ class Spolymer(sublime_plugin.EventListener):
     linter = SploymerLinter()
 
     def on_modified(self, view):
-        print('============= SPOLYMER DEBUG =============')
+        print('\n\n============= SPOLYMER DEBUG =============')
 
         # Launch lint processes
         self.linter.lint_html_imports(view)

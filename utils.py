@@ -1,5 +1,6 @@
 import re
 
+
 class SpolymerParser():
     """
         DocString
@@ -25,7 +26,7 @@ class SpolymerParser():
             # Remove unwanted withspaces & characters
             trimd_tag = {}
             for attr in match:
-                if attr and attr != '>' and attr != '/>':
+                if attr and ('=' in attr) and (attr != '>' and attr != '/>'):
                     if attr[:1] == '<':
                         attr = attr[1:]
                     if attr[-2:] == '/>':
@@ -33,10 +34,12 @@ class SpolymerParser():
                     if attr[-1:] == '>':
                         attr = attr[:-1]
                     # Build obj. representation of trimmed tag
-                    trimd_tag['_'] = 'link'
                     if attr != 'link':
                         attr = attr.split("=")
-                        trimd_tag[attr[0]] = attr[1][1:-1]
+                        if attr[1][0:1] == '"' and attr[1][-1:] == '"':
+                            trimd_tag[attr[0]] = attr[1][1:-1]
+                            trimd_tag['_'] = 'link'
+
             # Check if the current import statement is valid, then store it
             has_rel_import = 'rel' in trimd_tag and trimd_tag['rel'] == 'import'
             has_href = 'href' in trimd_tag and trimd_tag['href']

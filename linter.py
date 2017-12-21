@@ -24,6 +24,18 @@ class SploymerLinter():
         self._view = view
         self._html_imports = SpolymerParser.parse_html_imports(content)
 
-        print(view.file_name()[0:view.file_name().rfind('/')])
-        for imp in self._html_imports:
-            print(os.path.isfile(imp['href']))
+        view_filepath = view.file_name()
+        if view_filepath:
+            view_filedir = view_filepath[0:view_filepath.rfind('/')]
+            import_filepath = None
+            print(sublime.Window.id(sublime.Window))
+            for imp in self._html_imports:
+                if imp['href'][0:1] == '/':
+                    pass
+                elif imp['href'][0:2] == './':
+                    pass
+                elif imp['href'][0:3] == '../':
+                    pass
+                else:
+                    import_filepath = '{}/{}'.format(view_filedir, imp['href'])
+                print(import_filepath)
