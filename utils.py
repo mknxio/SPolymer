@@ -48,6 +48,10 @@ class SpolymerParser():
                 imports.append(trimd_tag)
         return imports
 
+class SpolymerUtils():
+    """
+        DocString
+    """
     @staticmethod
     def get_active_project_path():
         """
