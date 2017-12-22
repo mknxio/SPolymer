@@ -1,4 +1,5 @@
 import re
+import sublime
 
 
 class SpolymerParser():
@@ -46,3 +47,23 @@ class SpolymerParser():
             if has_rel_import and has_href:
                 imports.append(trimd_tag)
         return imports
+
+    @staticmethod
+    def get_active_project_path():
+        """
+            DocString
+        """
+        import os
+        window = sublime.active_window()
+        folders = window.folders()
+        if len(folders) == 1:
+            return folders[0]
+        else:
+            active_view = window.active_view()
+            active_file_name = active_view.file_name() if active_view else None
+            if not active_file_name:
+                return folders[0] if len(folders) else os.path.expanduser("~")
+            for folder in folders:
+                if active_file_name.startswith(folder):
+                    return folder
+            return os.path.dirname(active_file_name)

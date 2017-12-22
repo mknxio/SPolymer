@@ -28,7 +28,6 @@ class SploymerLinter():
         if view_filepath:
             view_filedir = view_filepath[0:view_filepath.rfind('/')]
             import_filepath = None
-            print(sublime.Window.id(sublime.Window))
             for imp in self._html_imports:
                 if imp['href'][0:1] == '/':
                     pass
